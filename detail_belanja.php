@@ -36,7 +36,7 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
     $result = $stmt->get_result();
     $stmt->close();
 
-    $query = "SELECT SUM(p.harga) AS totalBelanjaHarga FROM keranjang k JOIN produk p ON k.id_produk = p.id_produk WHERE k.email=?";
+    $query = "SELECT SUM(p.harga * k.jumlah_beli) AS totalBelanjaHarga FROM keranjang k JOIN produk p ON k.id_produk = p.id_produk WHERE k.email=?";
     $stmt = $mysqli->prepare($query);
     $stmt->bind_param('s', $_SESSION['email']);
     $stmt->execute();
