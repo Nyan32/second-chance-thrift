@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
-$username = "root";
-$password = "";
+$username = "second_chance_thrift";
+$password = "admin12345";
 $database = "second_chance_thrift";
 
 // Create connection
