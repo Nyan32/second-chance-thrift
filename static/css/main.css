@@ -1,17 +1,35 @@
 :root {
     --orange: #c45f34;
-    --white: #FFFFFF;
+    --white: #f4f4f4;
     --greyLight-1: rgb(193, 193, 193);
     --dark-1: rgb(36, 36, 36);
     --dark-2: rgba(36, 36, 36, 0.478);
     --grey-1: rgb(146, 146, 146);
     --red-1: #c43434;
     --blue-1: #4E53FF;
+    --yellow-1: #e8df35;
+    --green-1: #4ff06c;
 }
 
 *:focus {
     outline: solid 1px var(--red-1);
 }
+
+.thrift-shop-red-status {
+    background-color: var(--red-1) !important;
+    color: var(--white);
+}
+
+.thrift-shop-yellow-status {
+    background-color: var(--yellow-1) !important;
+    color: var(--white);
+}
+
+.thrift-shop-green-status {
+    background-color: var(--green-1) !important;
+    color: var(--white);
+}
+
 
 button.thrift-shop-transparent {
     background-color: transparent;
@@ -48,7 +66,11 @@ a.thrift-shop {
 }
 
 .thrift-shop-font-red {
-    color: var(--red-1);
+    color: var(--red-1) !important;
+}
+
+.thrift-shop-font-white {
+    color: var(--white);
 }
 
 .thrift-shop-bg-dark {
@@ -57,6 +79,14 @@ a.thrift-shop {
 
 .thrift-shop-bg-red {
     background-color: var(--red-1) !important;
+}
+
+.thrift-shop-bg-gray {
+    background-color: var(--grey-1) !important;
+}
+
+.thrift-shop-bg-white {
+    background-color: var(--white) !important;
 }
 
 .thrit-shop-width-search {

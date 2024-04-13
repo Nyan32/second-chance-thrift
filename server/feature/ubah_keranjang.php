@@ -87,13 +87,23 @@ function validateIdProdukandItsValue($mysqli, $idProduk, $zipIdJumlah)
         }
         $validIdProduk = array_values($validIdProduk);
 
-        $isThereValidIdProduk = (count($validIdProduk) > 0) ? true : false;
-
         return array("validIdProduk" => $validIdProduk, "zipIdJumlah" => $zipIdJumlah);
     } else {
         return array("validIdProduk" => array(), "zipIdJumlah" => array());
     }
+}
 
+function checkIfCartStillValid($mysqli)
+{
+    $query = 'SELECT COUNT(*) AS jumlah FROM keranjang WHERE email=?';
+    $stmt = $mysqli->prepare($query);
+    $stmt->bind_param("i", $_SESSION['email']);
+    $stmt->execute();
+    $resultJumlah = $stmt->get_result();
+
+    $row = $resultJumlah->fetch_assoc();
+
+    return ($row['jumlah'] > 0) ? true : false;
 }
 
 function findDiffIdFromInputandDB($mysqli, $validIdProduk)
@@ -135,6 +145,8 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '' && $_SERVER['REQUEST_M
         array_push($error, "Jumlah beli melewati batas keranjang");
     } else if (!validateItemsNeeds($mysqli, $validIdProduk, $zipIdJumlah)) {
         array_push($error, "Terjadi perubahan stok, stok tidak mencukupi");
+    } else if (!checkIfCartStillValid($mysqli)) {
+        array_push($error, "Keranjangmu sebelumnya sudah expired");
     }
 
     if (count($error) < 1) {

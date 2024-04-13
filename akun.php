@@ -91,7 +91,7 @@ if ($userLogin == '') {
             </div>
             <div class="d-flex justify-content-center p-2">
                 <button
-                    class="d-flex align-items-center thrift-shop-transparent thrift-shop-bg-red p-2 justify-content-center text-white"><img
+                    class="d-flex align-items-center thrift-shop-transparent thrift-shop-bg-red p-2 justify-content-center thrift-shop-font-white"><img
                         src="/static/image/icons8-login-24.png" alt="login">Register</button>
             </div>
             <div class="text-center">
@@ -133,7 +133,7 @@ if ($userLogin == '') {
             </div>
             <div class="d-flex justify-content-center p-2">
                 <button
-                    class="d-flex align-items-center thrift-shop-transparent thrift-shop-bg-red p-2 justify-content-center text-white"><img
+                    class="d-flex align-items-center thrift-shop-transparent thrift-shop-bg-red p-2 justify-content-center thrift-shop-font-white"><img
                         src="/static/image/icons8-login-24.png" alt="login">Login</button>
             </div>
             <div class="text-center">

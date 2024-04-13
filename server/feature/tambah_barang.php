@@ -21,6 +21,7 @@ function validateTotalItemInCart($mysqli)
 
 if (isset($_SESSION['email']) && $_SESSION['email'] != '' && $_SERVER['REQUEST_METHOD'] == 'POST') {
     date_default_timezone_set('Asia/Bangkok');
+
     $error = array();
     $idProduk = trim($_POST['idProduk']);
     $srcURL = trim($_POST['srcURL']);

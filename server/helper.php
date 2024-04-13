@@ -92,3 +92,17 @@ function convertTo999Plus($num)
         return strval($num);
     }
 }
+
+function generateUid()
+{
+    $salt = "second_chance_thrift";
+    $uid = time() . $salt;
+    $encryptedUid = hash('sha256', $uid);
+    return $encryptedUid;
+}
+
+function validateFileExtension($ext)
+{
+    $allowed_ext = ['jpg', 'png', 'jpeg'];
+    return in_array($ext, $allowed_ext);
+}

@@ -81,7 +81,7 @@ if (count($error) > 0) {
                                 src="/static/image/icons8-shopping-cart-24.png" alt="shop cart">&nbsp;Beli</button>
                     </form>
                     <button
-                        class="col-6 detail d-flex align-items-center thrift-shop-transparent justify-content-center"><img
+                        class="col-6 detail d-flex align-items-center thrift-shop-transparent thrift-shop-bg-white justify-content-center"><img
                             src="/static/image/icons8-detail-24.png" alt="detail">&nbsp;Detail</button>
                 </div>
 

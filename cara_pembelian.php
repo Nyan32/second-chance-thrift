@@ -33,8 +33,10 @@ session_start();
     <li>Anda akan dibawa ke halaman <b>riwayat transaksi</b>, disini anda dapat melihat transaksi yang belum dilakukan
         konfirmasi pembayaran dan transaksi-transaksi sebelumnya yang sudah dilakukan.</li>
     </li>
-    <li>Lakukan konfirmasi pembayaran dalam 15 menit, atau transaksi akan dibatalkan.</li>
-    <li>Setelah pembayaran dikonfirmasi, kami akan mengirimkan baran pesanan ke alamat dituju.</li>
+    <li>Lakukan konfirmasi pembayaran dalam <b>15 menit</b>, atau transaksi akan dibatalkan.</li>
+    <li>Pastikan bukti yang dikirim <b>dapat terbaca dengan baik</b>. Jika tidak, admin akan membatalkan pesanan.</li>
+    <li>Hubungi admin terkait pengiriman ulang bukti.</li>
+    <li>Setelah pembayaran dikonfirmasi, kami akan mengirimkan barang pesanan ke alamat dituju.</li>
 </ol>
 
 <?php $content = ob_get_clean(); ?>

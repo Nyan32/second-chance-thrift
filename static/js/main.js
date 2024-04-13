@@ -42,6 +42,7 @@ $(function () {
         "detail_belanja.php": "Keranjang",
         "cara_pembelian.php": "Cara Pembelian",
         "riwayat_transaksi.php": "Riwayat Transaksi",
+        "detail_transaksi.php": "Riwayat Transaksi",
         "akun.php": "Akun",
     };
 
@@ -54,8 +55,10 @@ $(function () {
     } else if (activePage == 'detail_belanja.php') {
         $(`li[data-url="keranjang.php"] a`).addClass('thrift-shop-active-menu')
         $('#pagePosition').text(mappingUrlToMenuName[activePage])
-    }
-    else {
+    } else if (activePage == 'detail_transaksi.php') {
+        $(`li[data-url="riwayat_transaksi.php"] a`).addClass('thrift-shop-active-menu')
+        $('#pagePosition').text(mappingUrlToMenuName[activePage])
+    } else {
         $(`li[data-url="${activePage}"] a`).addClass('thrift-shop-active-menu')
         $('#pagePosition').text(mappingUrlToMenuName[activePage])
     }

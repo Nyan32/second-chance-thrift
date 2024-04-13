@@ -9,6 +9,12 @@ header("Expires: $expirationDate");
 
 session_start();
 
+if (isset($_GET['kodeTransaksi']) && $_GET['kodeTransaksi'] != '') {
+    $kodeTransaksi = $_GET['kodeTransaksi'];
+} else {
+    $kodeTransaksi = '';
+}
+
 if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
     $userLogin = $_SESSION['email'];
 
@@ -21,17 +27,32 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
 
     $dataAkun = $resultAkun->fetch_assoc();
 
-
-    $query = "SELECT * FROM keranjang k JOIN produk p ON k.id_produk = p.id_produk WHERE k.email=? ORDER BY k.jumlah_beli";
+    $query = "SELECT * FROM riwayat_transaksi r JOIN produk p ON r.id_produk = p.id_produk WHERE r.kode_transaksi=? ORDER BY r.jumlah_beli";
     $stmt = $mysqli->prepare($query);
-    $stmt->bind_param('s', $_SESSION['email']);
+    $stmt->bind_param('s', $kodeTransaksi);
     $stmt->execute();
-    $result = $stmt->get_result();
+    $resultRiwayat = $stmt->get_result();
     $stmt->close();
 
-    $query = "SELECT SUM(p.harga * k.jumlah_beli) AS totalBelanjaHarga FROM keranjang k JOIN produk p ON k.id_produk = p.id_produk WHERE k.email=?";
+    $query = "SELECT status, kode_transaksi FROM riwayat_transaksi WHERE kode_transaksi=? GROUP BY kode_transaksi";
     $stmt = $mysqli->prepare($query);
-    $stmt->bind_param('s', $_SESSION['email']);
+    $stmt->bind_param('s', $kodeTransaksi);
+    $stmt->execute();
+    $resultStatus = $stmt->get_result();
+    $stmt->close();
+
+    $row = $resultStatus->fetch_assoc();
+    $status = $row['status'];
+    $mappingStatus = [
+        "fail" => "Transaksi gagal",
+        "success" => "Transaksi berhasil",
+        "waiting" => "Menunggu bukti transaksi",
+        "validating" => "Pengecekan bukti oleh toko",
+    ];
+
+    $query = "SELECT SUM(p.harga * r.jumlah_beli) AS totalBelanjaHarga FROM riwayat_transaksi r JOIN produk p ON r.id_produk = p.id_produk WHERE r.kode_transaksi=?";
+    $stmt = $mysqli->prepare($query);
+    $stmt->bind_param('s', $kodeTransaksi);
     $stmt->execute();
     $resultTotalHarga = $stmt->get_result();
     $stmt->close();
@@ -50,7 +71,7 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
 
 <?php ob_start(); ?>
 <h2 class="thrift-shop">
-    Detail Belanja
+    Detail Transaksi
 </h2>
 <hr>
 <h3 class="thrift-shop-small-font mb-3"><b>Detail pembeli</b></h3>
@@ -63,11 +84,13 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
 <h3 class="thrift-shop-small-font mb-3"><b>Total
         harga: &nbsp<?= intToRupiahStr((($totalHarga != '') ? $totalHarga : 0)) ?></b></h3>
 
+<h3 class="thrift-shop-small-font mb-3"><b>Status transaksi: &nbsp<?= $mappingStatus[$status] ?></b></h3>
+
 
 <h4 class="thrift-shop-small-font m-0"><b>Detail:</b></h4>
 <div class="p-2">
     <?php
-    if ($result->num_rows > 0) {
+    if ($resultRiwayat->num_rows > 0) {
         ?>
         <table class="table table-sm">
             <thead>
@@ -80,9 +103,9 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
             </thead>
             <tbody>
                 <?php
-                while ($row = $result->fetch_assoc()) {
+                while ($row = $resultRiwayat->fetch_assoc()) {
                     ?>
-                    <tr class="itemBelanja">
+                    <tr class="itemBelanja" ?>
                         <td>
                             <div class="outer-1-1">
                                 <div class="inner">
@@ -101,20 +124,10 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
                 ?>
             </tbody>
         </table>
-
-        <div class="d-flex flex-wrap">
-            <div class="p-2">
-                <form action="/server/feature/proses_keranjang.php" method="post">
-                    <button class="d-flex align-items-center thrift-shop-transparent thrift-shop primary p-2">
-                        <img src="/static/image/icons8-checkmark-24-white.png" alt="proses">&nbsp;Proses</button>
-                </form>
-            </div>
-
-        </div>
         <?php
     } else {
         ?>
-        <h4 class="thrift-shop-small-font">Keranjang kamu masih kosong nih, belanja yuk...</h4>
+        <h4 class="thrift-shop-small-font">Riwayat transaksi tidak ditemukan</h4>
         <?php
     }
     ?>

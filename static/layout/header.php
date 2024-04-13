@@ -34,7 +34,7 @@
                     if ($userLogin != '') {
                         ?>
                         <li class="nav-item" data-url="riwayat_transaksi.php">
-                            <a class="nav-link" href="#">Riwayat Transaksi</a>
+                            <a class="nav-link" href="riwayat_transaksi.php">Riwayat Transaksi</a>
                         </li>
                         <?php
                     }

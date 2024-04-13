@@ -73,13 +73,13 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
                             </div>
                             <div class="p-2 row m-0">
                                 <a class="col-12 col-lg-6 thrift-shop cart-link p-0" href="/keranjang.php"><img
-                                        src="/static/image/icons8-checkmark-24.png" alt="checkmark">lihat
+                                        src="/static/image/icons8-checkmark-24.png" alt="checkmark">&nbsp;lihat
                                     keranjang</a>
                                 <?php
                                 if ($total_keranjang > 0) {
                                     ?>
                                     <a class="col-12 col-lg-6 thrift-shop cart-link p-0" href="/detail_belanja.php"><img
-                                            src="/static/image/icons8-checkmark-24.png" alt="checkmark">selesai
+                                            src="/static/image/icons8-checkmark-24.png" alt="checkmark">&nbsp;selesai
                                         belanja</a>
                                     <?php
                                 }
@@ -126,7 +126,7 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
         </div>
     </div>
 
-
+    <?php include ('static/layout/footer.php'); ?>
 </body>
 
 </html>
