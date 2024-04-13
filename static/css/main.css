@@ -1,0 +1,256 @@
+:root {
+    --orange: #c45f34;
+    --white: #FFFFFF;
+    --greyLight-1: rgb(193, 193, 193);
+    --dark-1: rgb(36, 36, 36);
+    --dark-2: rgba(36, 36, 36, 0.478);
+    --grey-1: rgb(146, 146, 146);
+    --red-1: #c43434;
+    --blue-1: #4E53FF;
+}
+
+*:focus {
+    outline: solid 1px var(--red-1);
+}
+
+button.thrift-shop-transparent {
+    background-color: transparent;
+    border: none;
+}
+
+.thrift-shop.navbar-toggler:focus {
+    border: none !important;
+    outline: solid 1px var(--red-1);
+    box-shadow: none;
+}
+
+input[type="text"].thrift-shop.form-control:focus,
+input[type="password"].thrift-shop.form-control:focus,
+input[type="email"].thrift-shop.form-control:focus,
+textarea.thrift-shop.form-control:focus {
+    border: none !important;
+    outline: solid 1px var(--red-1);
+    box-shadow: none;
+}
+
+
+a.thrift-shop {
+    color: inherit;
+    text-decoration: none;
+}
+
+.thrift-shop-nav-border li {
+    border-right: 0px solid transparent;
+}
+
+.thrift-shop-font-orange {
+    color: var(--orange);
+}
+
+.thrift-shop-font-red {
+    color: var(--red-1);
+}
+
+.thrift-shop-bg-dark {
+    background-color: var(--dark-1) !important;
+}
+
+.thrift-shop-bg-red {
+    background-color: var(--red-1) !important;
+}
+
+.thrit-shop-width-search {
+    width: 100%;
+}
+
+input[type="text"].thrift-shop-border-inside {
+    border: none;
+    padding: 10px;
+    font-size: 12px;
+    box-shadow: inset 0.2rem 0.2rem 0.5rem var(--greyLight-1), inset -0.1rem -0.1rem 0.3rem var(--white);
+}
+
+.outer-9-16-md,
+.outer-9-16-md:before,
+.outer-9-16-md>.inner {}
+
+.outer-3-4 {
+    position: relative;
+}
+
+.outer-3-4:before {
+    display: block;
+    content: "";
+    width: 100%;
+    padding-top: 75%;
+}
+
+.outer-3-4>.inner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.container {
+    display: flex;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #333;
+    color: #fff;
+    height: 100vh;
+    padding-top: 20px;
+    box-sizing: border-box;
+    display: none;
+}
+
+.sidebar.active {
+    display: block;
+}
+
+.content {
+    flex-grow: 1;
+    background-color: #f2f2f2;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.thrift-shop-side-bar {
+    position: absolute;
+    background-color: var(--dark-2)
+}
+
+.thrift-shop-side-bar .title-card {
+    background-color: var(--red-1);
+    color: var(--white);
+}
+
+.thrift-shop-side-bar .category-link {
+    border-bottom: 1px solid #000000;
+}
+
+.thrift-shop-side-bar .cart-link:hover,
+.thrift-shop-side-bar .cart-link:active {
+    color: var(--blue-1);
+}
+
+.thrift-shop-side-bar .category-link:hover,
+.thrift-shop-side-bar .category-link:active {
+    color: var(--blue-1);
+}
+
+a.thrift-shop.register:hover,
+a.thrift-shop.register:active {
+    color: var(--blue-1);
+}
+
+.thrift-shop-side-bar-hid {
+    display: none !important;
+}
+
+.thrift-shop-side-bar-show {
+    display: block !important;
+}
+
+.thrift-shop-active-menu {
+    color: var(--red-1) !important;
+}
+
+.thrift-shop-small-font {
+    font-size: 1.3rem;
+}
+
+h4.thrift-shop-small-font {
+    font-size: 1rem;
+    color: var(--grey-1);
+}
+
+h2.thrift-shop {
+    font-size: 1.5rem;
+    color: var(--red-1);
+}
+
+.outer-1-1 {
+    position: relative;
+}
+
+.outer-1-1:before {
+    display: block;
+    content: "";
+    width: 100%;
+    padding-top: 100%;
+}
+
+.outer-1-1>.inner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.thrift-shop-card {
+    border: 1px solid var(--red-1);
+    border-radius: 0.3rem;
+}
+
+.thrift-shop-card button.primary,
+.thrift-shop.primary {
+    background-color: var(--red-1) !important;
+    color: var(--white) !important;
+}
+
+.thrift-shop-card button.detail {
+    background-color: var(--white);
+    color: var(--red-1);
+}
+
+
+
+@media screen and (min-width: 768px) {
+
+    .outer-3-4,
+    .outer-3-4:before,
+    .outer-3-4>.inner {}
+
+    .thrift-shop-nav-border li {
+        border-right: 1px solid #c8c8c8;
+    }
+
+    .thrit-shop-width-search {
+        width: 65%;
+        min-width: 300px;
+    }
+
+    .outer-9-16-md {
+        position: relative;
+    }
+
+    .outer-9-16-md:before {
+        display: block;
+        content: "";
+        width: 100%;
+        padding-top: 30.25%;
+    }
+
+    .outer-9-16-md>.inner {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+
+    .sidebar {
+        display: block;
+        position: static;
+    }
+
+    .thrift-shop-side-bar {
+        position: relative;
+        background-color: transparent;
+    }
+}

@@ -1,0 +1,12 @@
+Options -Indexes
+
+<FilesMatch "\.(png|jpg)$">
+    Order allow,deny
+    Allow from all
+</FilesMatch>
+
+# Redirect for not allowed file extensions
+<FilesMatch "\.(php|htaccess)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
