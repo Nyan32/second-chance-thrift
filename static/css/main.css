@@ -70,7 +70,7 @@ a.thrift-shop {
 }
 
 .thrift-shop-font-white {
-    color: var(--white);
+    color: var(--white) !important;
 }
 
 .thrift-shop-bg-dark {

@@ -113,3 +113,8 @@ function formatTimeToShow($inputDatetime)
     $formattedDatetime = $datetime->format('d F Y - H:i:s');
     return $formattedDatetime;
 }
+
+function validateSessionLogin($mysqli)
+{
+
+}
