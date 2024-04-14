@@ -104,7 +104,7 @@ if ($userLogin == '') {
             <div class="d-flex justify-content-center p-2">
                 <button
                     class="d-flex align-items-center thrift-shop-transparent thrift-shop-bg-red p-2 justify-content-center thrift-shop-font-white"><img
-                        src="/static/image/icons8-login-24.png" alt="login">Register</button>
+                        src="/static/image/icons8-login-24.png" alt="login">&nbsp;Register</button>
             </div>
             <div class="text-center">
                 <a href="/akun.php" class="thrift-shop register">Sudah punya akun? Masuk sekarang!</a>
@@ -149,7 +149,7 @@ if ($userLogin == '') {
             <div class="d-flex justify-content-center p-2">
                 <button
                     class="d-flex align-items-center thrift-shop-transparent thrift-shop-bg-red p-2 justify-content-center thrift-shop-font-white"><img
-                        src="/static/image/icons8-login-24.png" alt="login">Login</button>
+                        src="/static/image/icons8-login-24.png" alt="login">&nbsp;Login</button>
             </div>
             <div class="text-center">
                 <a href="/akun.php?register=true" class="thrift-shop register">Belum punya akun? Daftar sekarang!</a>

@@ -137,12 +137,13 @@ if (count($error) > 0) {
                         <input name="srcURL" type="text" value="/beranda.php" hidden>
                         <button
                             class="primary d-flex align-items-center thrift-shop-transparent justify-content-center w-100"><img
-                                src="/static/image/icons8-shopping-cart-24-white.png" alt="shop cart">&nbsp;Beli</button>
+                                src="/static/image/icons8-shopping-cart-24-white.png" alt="shop cart">&nbsp;<span
+                                class="d-none d-lg-inline">Beli</span></button>
                     </form>
                     <button
                         class="col-6 detail d-flex align-items-center thrift-shop-transparent thrift-shop-bg-white justify-content-center detailProduk"
                         data-id-produk="<?= $row['id_produk'] ?>"><img src="/static/image/icons8-detail-24.png"
-                            alt="detail">&nbsp;Detail</button>
+                            alt="detail">&nbsp;<span class="d-none d-lg-inline">Detail</span></button>
                 </div>
 
             </div>
