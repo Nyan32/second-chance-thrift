@@ -91,4 +91,31 @@ $(function () {
             $('#sideBar').addClass("thrift-shop-side-bar-hid")
         }
     })
+
+    const myModal = new bootstrap.Modal(document.getElementById('showDetailProduk'))
+
+    $('.detailProduk').on('click', function () {
+        var idProduk = $(this).data('id-produk')
+        var nama = $(`.detailInfo[data-id-produk="${idProduk}"] .nama`).text()
+        var deskripsi = $(`.detailInfo[data-id-produk="${idProduk}"] .deskripsi`).text()
+        var harga = $(`.detailInfo[data-id-produk="${idProduk}"] .harga`).text()
+        var stok = $(`.detailInfo[data-id-produk="${idProduk}"] .stok`).text()
+        var berat = $(`.detailInfo[data-id-produk="${idProduk}"] .berat`).text()
+        var gambar = $(`.detailInfo[data-id-produk="${idProduk}"] .gambar`).text()
+        var jumlahDibeli = $(`.detailInfo[data-id-produk="${idProduk}"] .jumlahDibeli`).text()
+        var diskon = $(`.detailInfo[data-id-produk="${idProduk}"] .diskon`).text()
+        var kategori = $(`.detailInfo[data-id-produk="${idProduk}"] .kategori`).text()
+
+        $('#gambarProdukModal').attr('src', `/server/produk/${gambar}`)
+        $('#namaProdukModal').text(nama)
+        $('#namaKategoriProdukModal').text(kategori)
+        $('#deskripsiProdukModal').text(deskripsi)
+        $('#hargaProdukModal span').text(harga)
+        $('#beratProdukModal span').text(berat)
+        $('#diskonProdukModal span').text(diskon)
+        $('#stokProdukModal span').text(stok)
+        $('#jumlahDibeliProdukModal span').text(jumlahDibeli)
+
+        myModal.toggle()
+    })
 })

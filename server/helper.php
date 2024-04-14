@@ -142,3 +142,14 @@ function getEmailFromHash($mysqli, $emailHash)
 
     return $dataAkun['email'];
 }
+
+function formatJumlahDibeli($number) {
+    if ($number > 1000000) {
+        $formattedNumber = number_format($number / 1000000, 2) . " jt";
+    } elseif ($number > 1000) {
+        $formattedNumber = number_format($number / 1000, 2) . " rb";
+    } else {
+        $formattedNumber = $number;
+    }
+    return $formattedNumber;
+}

@@ -107,7 +107,7 @@ if (count($error) > 0) {
                             </td>
                             <td class="align-middle"><?= $row['nama'] ?></td>
                             <td class="align-middle"><?= intToRupiahStr($row['harga']) ?></td>
-                            <td class="align-middle"><?= $row['stok'] ?></td>
+                            <td class="align-middle"><?= convertTo999Plus($row['stok']) ?></td>
                             <td class="align-middle"><input class="thrift-shop form-control" type="text" name="jumlahBeli[]"
                                     value="<?= $row['jumlah_beli'] ?>">
                             </td>

@@ -36,10 +36,11 @@ button.thrift-shop-transparent {
     border: none;
 }
 
-.thrift-shop.navbar-toggler:focus {
+.thrift-shop.navbar-toggler:focus,
+button.thrift-shop-modal:focus {
     border: none !important;
-    outline: solid 1px var(--red-1);
-    box-shadow: none;
+    outline: solid 1px var(--red-1) !important;
+    box-shadow: none !important;
 }
 
 input[type="text"].thrift-shop.form-control:focus,
