@@ -114,7 +114,31 @@ function formatTimeToShow($inputDatetime)
     return $formattedDatetime;
 }
 
-function validateSessionLogin($mysqli)
+function validateSessionLogin($mysqli, $userLogin)
 {
+    $query = "SELECT COUNT(*) AS jumlah FROM akun WHERE email_hash=?";
+    $stmt = $mysqli->prepare($query);
+    $stmt->bind_param('s', $userLogin);
+    $stmt->execute();
+    $resultQuery = $stmt->get_result();
 
+    $stmt->close();
+    $row = $resultQuery->fetch_assoc();
+    $result = $row['jumlah'];
+
+    return ($result > 0) ? true : false;
+}
+
+function getEmailFromHash($mysqli, $emailHash)
+{
+    $query = "SELECT email FROM akun WHERE email_hash=?";
+    $stmt = $mysqli->prepare($query);
+    $stmt->bind_param('s', $emailHash);
+    $stmt->execute();
+    $resultAkun = $stmt->get_result();
+    $stmt->close();
+
+    $dataAkun = $resultAkun->fetch_assoc();
+
+    return $dataAkun['email'];
 }

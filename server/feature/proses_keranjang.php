@@ -4,13 +4,16 @@ include_once ('../helper.php');
 
 session_start();
 
-if (isset($_SESSION['email']) && $_SESSION['email'] != '' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+if (isset($_SESSION['email']) && $_SESSION['email'] != '' && validateSessionLogin($mysqli, $_SESSION['email']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
     date_default_timezone_set('Asia/Bangkok');
     $error = array();
+    $userLogin = $_SESSION['email'];
+
+    $email = getEmailFromHash($mysqli, $userLogin);
 
     $query = 'SELECT id_produk, jumlah_beli FROM keranjang WHERE email=?';
     $stmt = $mysqli->prepare($query);
-    $stmt->bind_param("s", $_SESSION['email']);
+    $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
     $stmt->close();
@@ -19,7 +22,6 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '' && $_SERVER['REQUEST_M
     $timestamp = time();
     $dateTime = date("Y-m-d H:i:s", $timestamp);
     $status = 'waiting';
-    $email = $row['email'];
     $buktiTransaksi = '';
 
     // collect -> validate -> format -> submit
@@ -33,7 +35,7 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '' && $_SERVER['REQUEST_M
         $query = 'INSERT INTO riwayat_transaksi(email, id_produk, waktu_transaksi, status, kode_transaksi, bukti_transaksi, jumlah_beli)
         VALUES (?, ?, ?, ?, ?, ?, ?)';
         $stmt = $mysqli->prepare($query);
-        $stmt->bind_param("sissssi", $_SESSION['email'], $idProduk, $dateTime, $status, $kodeTransaksi, $buktiTransaksi, $jumlahBeli);
+        $stmt->bind_param("sissssi", $email, $idProduk, $dateTime, $status, $kodeTransaksi, $buktiTransaksi, $jumlahBeli);
         $stmt->execute();
         $stmt->close();
 
@@ -42,7 +44,7 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '' && $_SERVER['REQUEST_M
 
     $query = 'DELETE FROM keranjang WHERE email=?';
     $stmt = $mysqli->prepare($query);
-    $stmt->bind_param("s", $_SESSION['email']);
+    $stmt->bind_param("s", $email);
     $stmt->execute();
 
     if ($jumlahBarang <= 0) {

@@ -16,19 +16,21 @@ if (isset($_COOKIE['error'])) {
 }
 setcookie('error', '', time() - 3600, '/');
 
-if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
+if (isset($_SESSION['email']) && $_SESSION['email'] != '' && validateSessionLogin($mysqli, $_SESSION['email'])) {
     $userLogin = $_SESSION['email'];
+
+    $email = getEmailFromHash($mysqli, $userLogin);
 
     $query = "SELECT * FROM keranjang k JOIN produk p ON k.id_produk = p.id_produk WHERE k.email=? ORDER BY jumlah_beli";
     $stmt = $mysqli->prepare($query);
-    $stmt->bind_param('s', $_SESSION['email']);
+    $stmt->bind_param('s', $email);
     $stmt->execute();
     $result = $stmt->get_result();
     $stmt->close();
 
     $query = "SELECT email, UNIX_TIMESTAMP(waktu_keranjang) AS waktu_keranjang FROM keranjang WHERE email=? GROUP BY email";
     $stmt = $mysqli->prepare($query);
-    $stmt->bind_param('s', $_SESSION['email']);
+    $stmt->bind_param('s', $email);
     $stmt->execute();
     $resultWaktu = $stmt->get_result();
     $stmt->close();

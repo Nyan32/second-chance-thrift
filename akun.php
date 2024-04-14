@@ -22,13 +22,15 @@ if (isset($_COOKIE['prev_input'])) {
     $prev_input = array();
 }
 setcookie('prev_input', '', time() - 3600, '/');
-if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
+if (
+    isset($_SESSION['email']) && $_SESSION['email'] != '' && validateSessionLogin($mysqli, $_SESSION['email'])
+) {
     $userLogin = $_SESSION['email'];
     $isRegister = false;
 
-    $query = "SELECT nama, alamat, nomor_telepon FROM akun WHERE email=?";
+    $query = "SELECT nama, alamat, nomor_telepon FROM akun WHERE email_hash=?";
     $stmt = $mysqli->prepare($query);
-    $stmt->bind_param('s', $_SESSION['email']);
+    $stmt->bind_param('s', $userLogin);
     $stmt->execute();
     $resultAkun = $stmt->get_result();
     $stmt->close();

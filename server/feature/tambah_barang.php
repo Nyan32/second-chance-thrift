@@ -4,11 +4,11 @@ include_once ('../helper.php');
 
 session_start();
 
-function validateTotalItemInCart($mysqli)
+function validateTotalItemInCart($mysqli, $email)
 {
     $query = 'SELECT SUM(jumlah_beli) AS total_keranjang FROM keranjang WHERE email=?';
     $stmt = $mysqli->prepare($query);
-    $stmt->bind_param("s", $_SESSION['email']);
+    $stmt->bind_param("s", $email);
     $stmt->execute();
     $resultJumlah = $stmt->get_result();
 
@@ -19,7 +19,10 @@ function validateTotalItemInCart($mysqli)
     return ($totalKeranjang < 20) ? true : false;
 }
 
-if (isset($_SESSION['email']) && $_SESSION['email'] != '' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+if (
+    isset($_SESSION['email']) && $_SESSION['email'] != '' && validateSessionLogin($mysqli, $_SESSION['email'])
+    && $_SERVER['REQUEST_METHOD'] == 'POST'
+) {
     date_default_timezone_set('Asia/Bangkok');
 
     $error = array();
@@ -29,6 +32,8 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '' && $_SERVER['REQUEST_M
     $timestamp = time();
     $dateTime = date("Y-m-d H:i:s", $timestamp);
 
+    $email = getEmailFromHash($mysqli, $_SESSION['email']);
+
 
     // collect -> validate -> format -> submit
 
@@ -36,7 +41,7 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '' && $_SERVER['REQUEST_M
         array_push($error, "Produk ID tidak valid");
     } else if (!compareRowValueInTable($mysqli, "produk", "id_produk", $idProduk, "stok", "ii", ">=", 1)) {
         array_push($error, "Terjadi perubahan stok, stok tidak mencukupi");
-    } else if (!validateTotalItemInCart($mysqli)) {
+    } else if (!validateTotalItemInCart($mysqli, $email)) {
         array_push($error, "Jumlah beli melewati batas keranjang");
     }
 
@@ -51,7 +56,7 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '' && $_SERVER['REQUEST_M
     } else {
         $query = 'SELECT COUNT(*) AS jumlah, jumlah_beli FROM keranjang WHERE email=? AND id_produk=?';
         $stmt = $mysqli->prepare($query);
-        $stmt->bind_param("si", $_SESSION['email'], $idProduk);
+        $stmt->bind_param("si", $email, $idProduk);
         $stmt->execute();
         $resultQuery = $stmt->get_result();
         $stmt->close();
@@ -64,13 +69,13 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '' && $_SERVER['REQUEST_M
             $jumlah_beli = $prev_jumlah_beli + 1;
             $query = 'UPDATE keranjang SET jumlah_beli=? WHERE email=? AND id_produk=?';
             $stmt = $mysqli->prepare($query);
-            $stmt->bind_param("isi", $jumlah_beli, $_SESSION['email'], $idProduk);
+            $stmt->bind_param("isi", $jumlah_beli, $email, $idProduk);
             $stmt->execute();
             $stmt->close();
 
             $query = 'UPDATE keranjang SET waktu_keranjang=? WHERE email=?';
             $stmt = $mysqli->prepare($query);
-            $stmt->bind_param("ss", $dateTime, $_SESSION['email']);
+            $stmt->bind_param("ss", $dateTime, $email);
             $stmt->execute();
             $stmt->close();
 
@@ -83,13 +88,13 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '' && $_SERVER['REQUEST_M
             $jumlah_beli = 1;
             $query = 'INSERT INTO keranjang(id_produk, jumlah_beli, email) VALUES (?,?,?)';
             $stmt = $mysqli->prepare($query);
-            $stmt->bind_param("iis", $idProduk, $jumlah_beli, $_SESSION['email']);
+            $stmt->bind_param("iis", $idProduk, $jumlah_beli, $email);
             $stmt->execute();
             $stmt->close();
 
             $query = 'UPDATE keranjang SET waktu_keranjang=? WHERE email=?';
             $stmt = $mysqli->prepare($query);
-            $stmt->bind_param("ss", $dateTime, $_SESSION['email']);
+            $stmt->bind_param("ss", $dateTime, $email);
             $stmt->execute();
             $stmt->close();
 

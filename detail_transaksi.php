@@ -15,17 +15,19 @@ if (isset($_GET['kodeTransaksi']) && $_GET['kodeTransaksi'] != '') {
     $kodeTransaksi = '';
 }
 
-if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
+if (isset($_SESSION['email']) && $_SESSION['email'] != '' && validateSessionLogin($mysqli, $_SESSION['email'])) {
     $userLogin = $_SESSION['email'];
 
-    $query = "SELECT nama, alamat, nomor_telepon FROM akun WHERE email=?";
+    $query = "SELECT nama, alamat, nomor_telepon FROM akun WHERE email_hash=?";
     $stmt = $mysqli->prepare($query);
-    $stmt->bind_param('s', $_SESSION['email']);
+    $stmt->bind_param('s', $userLogin);
     $stmt->execute();
     $resultAkun = $stmt->get_result();
     $stmt->close();
 
     $dataAkun = $resultAkun->fetch_assoc();
+
+    $email = getEmailFromHash($mysqli, $userLogin);
 
     $query = "SELECT * FROM riwayat_transaksi r JOIN produk p ON r.id_produk = p.id_produk WHERE r.kode_transaksi=? ORDER BY r.jumlah_beli";
     $stmt = $mysqli->prepare($query);
@@ -76,7 +78,7 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
 ?>
 
 <?php ob_start(); ?>
-<script> var mark_waktu_transaksi = <?= ($rowCount > 0) ? $rowWaktu['waktu_transaksi'] : 0 ?> </script>
+<script> var mark_waktu_transaksi = <?= ($rowCount > 0 && $status == 'waiting') ? $rowWaktu['waktu_transaksi'] : 0 ?> </script>
 <script src="/static/js/page/detail_transaksi.js"></script>
 <?php $head = ob_get_clean(); ?>
 

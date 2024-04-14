@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         setcookie('prev_input', serialize($prev_input), 0, '/');
         header('Location: /akun.php');
     } else {
-        $_SESSION['email'] = $emailFMT;
+        $_SESSION['email'] = hash('sha256', $emailFMT . '-second_chance_thrift');
         header('Location: /beranda.php');
     }
 }

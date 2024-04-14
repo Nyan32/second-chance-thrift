@@ -62,10 +62,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $alamatFMT = $alamat;
         $emailFMT = formatEmail($email);
         $passwordFMT = $password;
+        $emailHash = hash('sha256', $emailFMT . '-second_chance_thrift');
 
-        $query = 'INSERT INTO akun (email, password, nama, alamat, nomor_telepon) VALUES (?, ?, ?, ?, ?)';
+        $query = 'INSERT INTO akun (email, password, nama, alamat, nomor_telepon, email_hash) VALUES (?, ?, ?, ?, ?, ?)';
         $stmt = $mysqli->prepare($query);
-        $stmt->bind_param("sssss", $emailFMT, $passwordFMT, $namaFMT, $alamatFMT, $nomorTeleponFMT);
+        $stmt->bind_param("sssss", $emailFMT, $passwordFMT, $namaFMT, $alamatFMT, $nomorTeleponFMT, $emailHash);
         $stmt->execute();
         $stmt->close();
 

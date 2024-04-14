@@ -21,7 +21,7 @@ function validateTotalItemInCart($mysqli, $zipIdJumlah)
     return ($totalNew <= 20) ? true : false;
 }
 
-function validateItemsNeeds($mysqli, $validIdProduk, $zipIdJumlah)
+function validateItemsNeeds($mysqli, $email, $validIdProduk, $zipIdJumlah)
 {
     for ($i = 0; $i < count($validIdProduk); $i++) {
         $query = 'SELECT stok FROM produk WHERE id_produk=?';
@@ -36,7 +36,7 @@ function validateItemsNeeds($mysqli, $validIdProduk, $zipIdJumlah)
 
         $query = 'SELECT jumlah_beli FROM keranjang WHERE email=? AND id_produk=?';
         $stmt = $mysqli->prepare($query);
-        $stmt->bind_param("si", $_SESSION['email'], $validIdProduk[$i]);
+        $stmt->bind_param("si", $email, $validIdProduk[$i]);
         $stmt->execute();
         $resultJumlah = $stmt->get_result();
 
@@ -93,11 +93,11 @@ function validateIdProdukandItsValue($mysqli, $idProduk, $zipIdJumlah)
     }
 }
 
-function checkIfCartStillValid($mysqli)
+function checkIfCartStillValid($mysqli, $email)
 {
     $query = 'SELECT COUNT(*) AS jumlah FROM keranjang WHERE email=?';
     $stmt = $mysqli->prepare($query);
-    $stmt->bind_param("i", $_SESSION['email']);
+    $stmt->bind_param("s", $email);
     $stmt->execute();
     $resultJumlah = $stmt->get_result();
 
@@ -106,11 +106,11 @@ function checkIfCartStillValid($mysqli)
     return ($row['jumlah'] > 0) ? true : false;
 }
 
-function findDiffIdFromInputandDB($mysqli, $validIdProduk)
+function findDiffIdFromInputandDB($mysqli, $email, $validIdProduk)
 {
     $query = 'SELECT id_produk FROM keranjang WHERE email=?';
     $stmt = $mysqli->prepare($query);
-    $stmt->bind_param("s", $_SESSION['email']);
+    $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
     $stmt->close();
@@ -124,7 +124,10 @@ function findDiffIdFromInputandDB($mysqli, $validIdProduk)
     return array("isThereDiffId" => $isThereDiffId, "difference" => $difference);
 }
 
-if (isset($_SESSION['email']) && $_SESSION['email'] != '' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+if (
+    isset($_SESSION['email']) && $_SESSION['email'] != '' && validateSessionLogin($mysqli, $_SESSION['email'])
+    && $_SERVER['REQUEST_METHOD'] == 'POST'
+) {
     date_default_timezone_set('Asia/Bangkok');
 
     $error = array();
@@ -135,6 +138,8 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '' && $_SERVER['REQUEST_M
     $timestamp = time();
     $dateTime = date("Y-m-d H:i:s", $timestamp);
 
+    $email = getEmailFromHash($mysqli, $_SESSION['email']);
+
     // collect -> validate -> format -> submit
 
     $resultIdProdukValidation = validateIdProdukandItsValue($mysqli, $idProduk, $zipIdJumlah);
@@ -143,9 +148,9 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '' && $_SERVER['REQUEST_M
 
     if (!validateTotalItemInCart($mysqli, $zipIdJumlah)) {
         array_push($error, "Jumlah beli melewati batas keranjang");
-    } else if (!validateItemsNeeds($mysqli, $validIdProduk, $zipIdJumlah)) {
+    } else if (!validateItemsNeeds($mysqli, $email, $validIdProduk, $zipIdJumlah)) {
         array_push($error, "Terjadi perubahan stok, stok tidak mencukupi");
-    } else if (!checkIfCartStillValid($mysqli)) {
+    } else if (!checkIfCartStillValid($mysqli, $email)) {
         array_push($error, "Keranjangmu sebelumnya sudah expired");
     }
 
@@ -153,27 +158,27 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '' && $_SERVER['REQUEST_M
         for ($i = 0; $i < count($validIdProduk); $i++) {
             $query = 'UPDATE produk SET stok=(SELECT stok FROM produk WHERE id_produk=?) - (? - (SELECT jumlah_beli FROM keranjang WHERE email=? AND id_produk=?)) WHERE id_produk=?';
             $stmt = $mysqli->prepare($query);
-            $stmt->bind_param("iisii", $validIdProduk[$i], $zipIdJumlah[$validIdProduk[$i]], $_SESSION['email'], $validIdProduk[$i], $validIdProduk[$i]);
+            $stmt->bind_param("iisii", $validIdProduk[$i], $zipIdJumlah[$validIdProduk[$i]], $email, $validIdProduk[$i], $validIdProduk[$i]);
             $stmt->execute();
             $stmt->close();
 
             if ($zipIdJumlah[$validIdProduk[$i]] == 0) {
                 $query = 'DELETE FROM keranjang WHERE email=? AND id_produk=?';
                 $stmt = $mysqli->prepare($query);
-                $stmt->bind_param("si", $_SESSION['email'], $validIdProduk[$i]);
+                $stmt->bind_param("si", $email, $validIdProduk[$i]);
                 $stmt->execute();
                 $stmt->close();
             } else {
                 $query = 'UPDATE keranjang SET jumlah_beli=?, waktu_keranjang=? WHERE email=? AND id_produk=?';
                 $stmt = $mysqli->prepare($query);
-                $stmt->bind_param("issi", $zipIdJumlah[$validIdProduk[$i]], $dateTime, $_SESSION['email'], $validIdProduk[$i]);
+                $stmt->bind_param("issi", $zipIdJumlah[$validIdProduk[$i]], $dateTime, $email, $validIdProduk[$i]);
                 $stmt->execute();
                 $stmt->close();
             }
         }
     }
 
-    $resultfindDiffIdFromInputandDB = findDiffIdFromInputandDB($mysqli, $validIdProduk);
+    $resultfindDiffIdFromInputandDB = findDiffIdFromInputandDB($mysqli, $email, $validIdProduk);
     $isThereDiffId = $resultfindDiffIdFromInputandDB['isThereDiffId'];
     $difference = $resultfindDiffIdFromInputandDB['difference'];
 
@@ -184,7 +189,7 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '' && $_SERVER['REQUEST_M
         $stmt = $mysqli->prepare($query);
 
         $types = str_repeat('i', count($difference)) . 's';
-        $bindParams = array_merge([$types], $difference, [$_SESSION['email']]);
+        $bindParams = array_merge([$types], $difference, [$email]);
         $params = [];
         foreach ($bindParams as $key => &$value) {
             $params[$key] = &$value;
@@ -208,7 +213,7 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '' && $_SERVER['REQUEST_M
         $stmt = $mysqli->prepare($query);
 
         $types = str_repeat('i', count($difference)) . 's';
-        $bindParams = array_merge([$types], $difference, [$_SESSION['email']]);
+        $bindParams = array_merge([$types], $difference, [$email]);
         $params = [];
         foreach ($bindParams as $key => &$value) {
             $params[$key] = &$value;

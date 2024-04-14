@@ -5,15 +5,16 @@ include_once ('../helper.php');
 
 session_start();
 
-if (isset($_SESSION['email']) && $_SESSION['email'] != '' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+if (isset($_SESSION['email']) && $_SESSION['email'] != '' && validateSessionLogin($mysqli, $_SESSION['email']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
     $error = array();
     $prev_input = array();
+    $userLogin = $_SESSION['email'];
 
     $nama = trim($_POST['nama']);
     $nomorTelepon = trim($_POST['nomorTelepon']);
     $alamat = trim($_POST['alamat']);
     $password = $_POST['password'];
-    $email = $_SESSION['email'];
+    $email = getEmailFromHash($mysqli, $userLogin);
 
     // collect -> validate -> format -> submit
 

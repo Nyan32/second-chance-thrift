@@ -16,12 +16,16 @@ if (isset($_COOKIE['error'])) {
 }
 setcookie('error', '', time() - 3600, '/');
 
-if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
+if (
+    isset($_SESSION['email']) && $_SESSION['email'] != '' && validateSessionLogin($mysqli, $_SESSION['email'])
+) {
     $userLogin = $_SESSION['email'];
+
+    $email = getEmailFromHash($mysqli, $userLogin);
 
     $query = "SELECT waktu_transaksi, kode_transaksi, status FROM riwayat_transaksi WHERE email=? GROUP BY kode_transaksi ORDER BY waktu_transaksi DESC";
     $stmt = $mysqli->prepare($query);
-    $stmt->bind_param('s', $_SESSION['email']);
+    $stmt->bind_param('s', $email);
     $stmt->execute();
     $result = $stmt->get_result();
     $stmt->close();

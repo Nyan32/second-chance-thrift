@@ -14,12 +14,14 @@ $stmt->close();
 $row = $resultAll->fetch_assoc();
 $total = $row['jumlah'];
 
-if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
+if (isset($_SESSION['email']) && $_SESSION['email'] != '' && validateSessionLogin($mysqli, $_SESSION['email'])) {
     $userLogin = $_SESSION['email'];
+
+    $email = getEmailFromHash($mysqli, $userLogin);
 
     $query = "SELECT SUM(jumlah_beli) AS total_keranjang FROM keranjang WHERE email=?";
     $stmt = $mysqli->prepare($query);
-    $stmt->bind_param('s', $userLogin);
+    $stmt->bind_param('s', $email);
     $stmt->execute();
     $resultAll = $stmt->get_result();
 
