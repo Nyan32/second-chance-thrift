@@ -2,9 +2,10 @@ $(function () {
     const waktuKeranjangCont = $('#waktuKeranjang')
 
     setInterval(function () {
+    	
         var unixTimestamp = Math.floor(Date.now() / 1000)
         var diff = 3600 - (unixTimestamp - mark_waktu_keranjang)
-
+		
         if (diff > 3600 || diff < 0) {
             diff = 0
         }
