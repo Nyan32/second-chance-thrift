@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 13, 2024 at 10:07 PM
+-- Generation Time: Apr 14, 2024 at 02:52 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -84,16 +84,17 @@ CREATE TABLE `akun` (
   `password` varchar(255) NOT NULL,
   `nama` varchar(255) NOT NULL,
   `alamat` mediumtext NOT NULL,
-  `nomor_telepon` varchar(13) NOT NULL
+  `nomor_telepon` varchar(13) NOT NULL,
+  `email_hash` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `akun`
 --
 
-INSERT INTO `akun` (`email`, `password`, `nama`, `alamat`, `nomor_telepon`) VALUES
-('budi_santoso@gmail.com', 'budi12345', 'Budi Santoso', 'Jalan Mangga Manis', '081288992211'),
-('coba@gmail.com', 'coba12345', 'Coba', 'Jalan Pisang Lama', '088112341234');
+INSERT INTO `akun` (`email`, `password`, `nama`, `alamat`, `nomor_telepon`, `email_hash`) VALUES
+('budi_santoso@gmail.com', 'budi12345', 'Budi Santoso', 'Jalan Mangga Manis', '081288992211', 'd581903ac4f00ddbdde1230dd5992c0a2532d242f1880c061206e6ec2442752f'),
+('coba@gmail.com', 'coba12345', 'Coba', 'Jalan Pisang Lama', '088112341234', 'b4ff8d60d0a34130c9d688612e20083626dcc5c0e6a2310df3812e28a91c0a8b');
 
 -- --------------------------------------------------------
 
@@ -155,7 +156,7 @@ CREATE TABLE `produk` (
 
 INSERT INTO `produk` (`id_produk`, `nama`, `deskripsi`, `harga`, `stok`, `berat`, `gambar`, `jumlah_dibeli`, `diskon`, `id_kategori`) VALUES
 (1, 'Kemeja Kotak-Kotak Lengan Panjang', 'Kemeja kotak-kotak lengan panjang yang trendy', 75000, 6, 350, 'produk-1.jpg', 4, 0, 1),
-(2, 'Kaos Hitam Animasi Naruto', 'Kaos hitam animasi naruto dengan berbagai karakter seperti naruto, sasuke, sakura, kakashi, itachi dan banyak lagi.', 30000, 11, 100, 'produk-2.jpg', 5, 0, 3);
+(2, 'Kaos Hitam Animasi Naruto', 'Kaos hitam animasi naruto dengan berbagai karakter seperti naruto, sasuke, sakura, kakashi, itachi dan banyak lagi.', 30000, 20, 100, 'produk-2.jpg', 5, 0, 3);
 
 -- --------------------------------------------------------
 
@@ -179,13 +180,9 @@ CREATE TABLE `riwayat_transaksi` (
 --
 
 INSERT INTO `riwayat_transaksi` (`id_riwayat_transaksi`, `email`, `id_produk`, `waktu_transaksi`, `status`, `kode_transaksi`, `bukti_transaksi`, `jumlah_beli`) VALUES
-(11, 'coba@gmail.com', 2, '2024-04-13 19:18:04', 'validating', 'cd3257643f189eab0d87e697841e776b9b6b7f6ca2d23f802df8338b4a2d7a88', '', 1),
-(12, 'budi_santoso@gmail.com', 1, '2024-04-13 19:33:04', 'fail', '4063b7755c301a7f9321ce38c691e07cc905797ecbcd34946fa20423ec7107c2', '', 1),
-(13, 'coba@gmail.com', 2, '2024-04-13 19:00:13', 'fail', '356498b3bec33d5982c9f7afea79100207f32329b7ddd4aab61da76c3fe16c01', '', 5),
-(14, 'budi_santoso@gmail.com', 1, '2024-04-13 19:49:29', 'success', '2c78f77f88b4756b7aee4033879d0901a97de5123b384fa2ef3a18685c7d290c', '', 4),
-(15, 'budi_santoso@gmail.com', 2, '2024-04-13 19:49:29', 'success', '2c78f77f88b4756b7aee4033879d0901a97de5123b384fa2ef3a18685c7d290c', '', 5),
-(16, 'budi_santoso@gmail.com', 2, '2024-04-13 19:00:44', 'fail', '772ee6ea27b45f2e782207a2f17a5a5a2d6305fbc6632446c862320ffb248290', '', 6),
-(17, 'budi_santoso@gmail.com', 2, '2024-04-13 19:00:31', 'validating', 'f51ebb7dc470883272bdfc5fdf5ea12435b540d0bbdce5bc110346d3654dc028', '', 3);
+(25, 'budi_santoso@gmail.com', 2, '2024-04-14 12:48:46', 'validating', 'c42965661ed0792c00e3543a6e2f5cc325f6057c8ef18efdd66183e486d0f1cf', 'c42965661ed0792c00e3543a6e2f5cc325f6057c8ef18efdd66183e486d0f1cf.png', 3),
+(26, 'budi_santoso@gmail.com', 1, '2024-04-14 12:48:46', 'validating', 'c42965661ed0792c00e3543a6e2f5cc325f6057c8ef18efdd66183e486d0f1cf', 'c42965661ed0792c00e3543a6e2f5cc325f6057c8ef18efdd66183e486d0f1cf.png', 3),
+(27, 'budi_santoso@gmail.com', 1, '2024-04-14 12:49:37', 'validating', '9a6a93a48f438e95f3f17ae577ce1ed8fcae87fda825ed98f8912b7c87643ec2', '9a6a93a48f438e95f3f17ae577ce1ed8fcae87fda825ed98f8912b7c87643ec2.png', 1);
 
 --
 -- Indexes for dumped tables
@@ -240,7 +237,7 @@ ALTER TABLE `kategori`
 -- AUTO_INCREMENT for table `keranjang`
 --
 ALTER TABLE `keranjang`
-  MODIFY `id_keranjang` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+  MODIFY `id_keranjang` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- AUTO_INCREMENT for table `produk`
@@ -252,7 +249,7 @@ ALTER TABLE `produk`
 -- AUTO_INCREMENT for table `riwayat_transaksi`
 --
 ALTER TABLE `riwayat_transaksi`
-  MODIFY `id_riwayat_transaksi` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_riwayat_transaksi` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- Constraints for dumped tables
