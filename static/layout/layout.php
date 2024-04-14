@@ -126,9 +126,10 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '' && validateSessionLogi
             </div>
 
         </div>
+        <?php include ('static/layout/footer.php'); ?>
     </div>
 
-    <?php include ('static/layout/footer.php'); ?>
+
 </body>
 
 </html>
