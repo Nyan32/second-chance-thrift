@@ -28,10 +28,6 @@ session_start();
 <div class="w-100">
     <img src="/static/image/maps.png" class="w-100" alt="lokasi toko">
 </div>
-
 <?php $content = ob_get_clean(); ?>
-
-
 <?php include ('static/layout/layout.php'); ?>
-
 <?php $mysqli->close(); ?>

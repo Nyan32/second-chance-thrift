@@ -91,9 +91,6 @@ if (count($error) > 0) {
     }
     ?>
 </div>
-
 <?php $content = ob_get_clean(); ?>
-
 <?php include ('static/layout/layout.php'); ?>
-
 <?php $mysqli->close(); ?>

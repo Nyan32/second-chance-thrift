@@ -106,3 +106,10 @@ function validateFileExtension($ext)
     $allowed_ext = ['jpg', 'png', 'jpeg'];
     return in_array($ext, $allowed_ext);
 }
+
+function formatTimeToShow($inputDatetime)
+{
+    $datetime = new DateTime($inputDatetime);
+    $formattedDatetime = $datetime->format('d F Y - H:i:s');
+    return $formattedDatetime;
+}

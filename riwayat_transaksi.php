@@ -32,7 +32,7 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
 ?>
 
 <?php ob_start(); ?>
-<script src="/static/js/page/riwayat_keranjang.js"></script>
+<script src="/static/js/page/riwayat_transaksi.js"></script>
 <?php $head = ob_get_clean(); ?>
 
 <?php ob_start(); ?>
@@ -79,7 +79,7 @@ if (count($error) > 0) {
                     ?>
                     <tr class="itemBelanja text-break break-word" data-produk-id="<?= $row['kode_transaksi'] ?>">
                         <td class="align-middle"><?= $row['kode_transaksi'] ?></td>
-                        <td class="align-middle"><?= $row['waktu_transaksi'] ?></td>
+                        <td class="align-middle"><?= formatTimeToShow($row['waktu_transaksi']) ?></td>
                         <td class="align-middle">
                             <div class="p-1 d-flex">
                                 <div
@@ -141,12 +141,6 @@ if (count($error) > 0) {
     ?>
 
 </div>
-
-
-
-
 <?php $content = ob_get_clean(); ?>
-
 <?php include ('static/layout/layout.php'); ?>
-
 <?php $mysqli->close(); ?>

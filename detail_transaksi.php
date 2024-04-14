@@ -59,6 +59,16 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
 
     $row = $resultTotalHarga->fetch_assoc();
     $totalHarga = $row['totalBelanjaHarga'];
+
+    $query = "SELECT kode_transaksi, UNIX_TIMESTAMP(waktu_transaksi) AS waktu_transaksi FROM riwayat_transaksi WHERE kode_transaksi=? GROUP BY kode_transaksi";
+    $stmt = $mysqli->prepare($query);
+    $stmt->bind_param('s', $kodeTransaksi);
+    $stmt->execute();
+    $resultWaktu = $stmt->get_result();
+    $stmt->close();
+
+    $rowWaktu = $resultWaktu->fetch_assoc();
+    $rowCount = $resultWaktu->num_rows;
 } else {
     $userLogin = "";
     header("Location: /akun.php");
@@ -66,13 +76,15 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
 ?>
 
 <?php ob_start(); ?>
-<script src="/static/js/page/keranjang.js"></script>
+<script> var mark_waktu_transaksi = <?= ($rowCount > 0) ? $rowWaktu['waktu_transaksi'] : 0 ?> </script>
+<script src="/static/js/page/detail_transaksi.js"></script>
 <?php $head = ob_get_clean(); ?>
 
 <?php ob_start(); ?>
 <h2 class="thrift-shop">
     Detail Transaksi
 </h2>
+<h4 class="thrift-shop-small-font">Durasi transaksi:&nbsp;<span id="waktuTransaksi">--:--:--</span></h4>
 <hr>
 <h3 class="thrift-shop-small-font mb-3"><b>Detail pembeli</b></h3>
 <ul>
@@ -133,12 +145,6 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
     ?>
 
 </div>
-
-
-
-
 <?php $content = ob_get_clean(); ?>
-
 <?php include ('static/layout/layout.php'); ?>
-
 <?php $mysqli->close(); ?>

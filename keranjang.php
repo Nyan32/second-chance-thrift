@@ -25,6 +25,16 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
     $stmt->execute();
     $result = $stmt->get_result();
     $stmt->close();
+
+    $query = "SELECT email, UNIX_TIMESTAMP(waktu_keranjang) AS waktu_keranjang FROM keranjang WHERE email=? GROUP BY email";
+    $stmt = $mysqli->prepare($query);
+    $stmt->bind_param('s', $_SESSION['email']);
+    $stmt->execute();
+    $resultWaktu = $stmt->get_result();
+    $stmt->close();
+
+    $rowWaktu = $resultWaktu->fetch_assoc();
+    $rowCount = $resultWaktu->num_rows;
 } else {
     $userLogin = "";
     header("Location: /akun.php");
@@ -32,6 +42,7 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
 ?>
 
 <?php ob_start(); ?>
+<script>var mark_waktu_keranjang = <?= ($rowCount > 0) ? $rowWaktu['waktu_keranjang'] : 0 ?> </script>
 <script src="/static/js/page/keranjang.js"></script>
 <?php $head = ob_get_clean(); ?>
 
@@ -39,8 +50,10 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
 <h2 class="thrift-shop">
     Keranjang
 </h2>
-
+<h4 class="thrift-shop-small-font">Durasi keranjang:&nbsp;<span id="waktuKeranjang">--:--:--</span></h4>
 <hr>
+
+
 
 <?php
 if (count($error) > 0) {
@@ -133,12 +146,6 @@ if (count($error) > 0) {
     ?>
 
 </div>
-
-
-
-
 <?php $content = ob_get_clean(); ?>
-
 <?php include ('static/layout/layout.php'); ?>
-
 <?php $mysqli->close(); ?>

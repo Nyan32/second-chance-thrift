@@ -144,11 +144,6 @@ if ($userLogin == '') {
     }
 }
 ?>
-
 <?php $content = ob_get_clean(); ?>
-
 <?php include ('static/layout/layout.php'); ?>
-
-<?php
-$mysqli->close();
-?>
+<?php $mysqli->close(); ?>

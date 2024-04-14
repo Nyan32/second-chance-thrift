@@ -1,9 +1,4 @@
 $(function () {
-    $('.tombolHapusItem').on('click', function () {
-        var idProduk = $(this).data('produk-id')
-        $(`tr[data-produk-id="${idProduk}"]`).remove()
-    })
-
     const waktuKeranjangCont = $('#waktuKeranjang')
 
     setInterval(function () {
@@ -34,4 +29,3 @@ $(function () {
         return hours + ':' + minutes + ':' + remainingSeconds;
     }
 })
-

@@ -1,23 +1,18 @@
 $(function () {
-    $('.tombolHapusItem').on('click', function () {
-        var idProduk = $(this).data('produk-id')
-        $(`tr[data-produk-id="${idProduk}"]`).remove()
-    })
-
-    const waktuKeranjangCont = $('#waktuKeranjang')
+    const waktuTransaksiCont = $('#waktuTransaksi')
 
     setInterval(function () {
         var unixTimestamp = Math.floor(Date.now() / 1000)
-        var diff = 3600 - (unixTimestamp - mark_waktu_keranjang)
+        var diff = 900 - (unixTimestamp - mark_waktu_transaksi)
 
-        if (diff > 3600 || diff < 0) {
+        if (diff > 900 || diff < 0) {
             diff = 0
         }
 
         if (diff == 0) {
-            waktuKeranjangCont.text("--:--:--")
+            waktuTransaksiCont.text("--:--:--")
         } else {
-            waktuKeranjangCont.text(formatTime(diff))
+            waktuTransaksiCont.text(formatTime(diff))
         }
 
     }, 1000)
@@ -34,4 +29,3 @@ $(function () {
         return hours + ':' + minutes + ':' + remainingSeconds;
     }
 })
-
