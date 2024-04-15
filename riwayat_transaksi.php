@@ -116,8 +116,8 @@ if (count($error) > 0) {
                                     <button type="button"
                                         class="d-flex align-items-center justify-content-center w-100 thrift-shop-transparent thrift-shop-bg-gray thrift-shop-font-white p-2 uploadBukti"
                                         data-kode-transaksi="<?= $row['kode_transaksi'] ?>"><img
-                                            src="/static/image/icons8-upload-24.png" alt="detail">&nbsp;<span
-                                            class="d-none d-md-inline">Upload Bukti</span>
+                                            src="/static/image/icons8-upload-24.png" alt="detail"><span
+                                            class="d-none d-md-inline">&nbsp;Upload Bukti</span>
                                     </button>
                                     <?php
                                 }
@@ -127,8 +127,8 @@ if (count($error) > 0) {
                             <div class="p-1 col-12">
                                 <a class="w-100 thrift-shop-font-red thrift-shop thrift-shop-bg-white p-2 d-inline-block d-flex align-items-center justify-content-center"
                                     href="/detail_transaksi.php?kodeTransaksi=<?= $row['kode_transaksi'] ?>"><img
-                                        src="/static/image/icons8-detail-24.png" alt="detail">&nbsp;<span
-                                        class="d-none d-md-inline">Detail</span>
+                                        src="/static/image/icons8-detail-24.png" alt="detail"><span
+                                        class="d-none d-md-inline">&nbsp;Detail</span>
                                 </a>
                             </div>
 
