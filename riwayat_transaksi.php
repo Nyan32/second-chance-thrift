@@ -93,45 +93,46 @@ if (count($error) > 0) {
                             </div>
 
                         </td>
-                        <td class="d-flex flex-wrap">
-                            <div class="p-1 col-12">
-                                <?php
-                                if ($row['status'] == 'waiting') {
-                                    ?>
-                                    <form class="kirimBukti" action="/server/feature/upload_bukti.php" method="post"
-                                        enctype="multipart/form-data" data-kode-transaksi="<?= $row['kode_transaksi'] ?>">
-                                        <input type="text" name="kodeTransaksi" value="<?= $row['kode_transaksi'] ?>" hidden>
-                                        <input type="file" name="buktiTransaksi" class="buktiTransaksi"
-                                            data-kode-transaksi="<?= $row['kode_transaksi'] ?>" hidden>
+                        <td>
+                            <div class="d-flex flex-wrap">
+                                <div class="p-1 col-12">
+                                    <?php
+                                    if ($row['status'] == 'waiting') {
+                                        ?>
+                                        <form class="kirimBukti" action="/server/feature/upload_bukti.php" method="post"
+                                            enctype="multipart/form-data" data-kode-transaksi="<?= $row['kode_transaksi'] ?>">
+                                            <input type="text" name="kodeTransaksi" value="<?= $row['kode_transaksi'] ?>" hidden>
+                                            <input type="file" name="buktiTransaksi" class="buktiTransaksi"
+                                                data-kode-transaksi="<?= $row['kode_transaksi'] ?>" hidden>
+                                            <button type="button"
+                                                class=" w-100 thrift-shop-transparent thrift-shop-bg-red thrift-shop-font-white p-2 uploadBukti"
+                                                data-kode-transaksi="<?= $row['kode_transaksi'] ?>"><img
+                                                    src="/static/image/icons8-upload-24.png" alt="detail"><span
+                                                    class="d-none d-md-inline">&nbsp;Upload Bukti</span>
+                                            </button>
+                                        </form>
+                                        <?php
+                                    } else {
+                                        ?>
                                         <button type="button"
-                                            class=" w-100 thrift-shop-transparent thrift-shop-bg-red thrift-shop-font-white p-2 uploadBukti"
+                                            class="d-flex align-items-center justify-content-center w-100 thrift-shop-transparent thrift-shop-bg-gray thrift-shop-font-white p-2 uploadBukti"
                                             data-kode-transaksi="<?= $row['kode_transaksi'] ?>"><img
                                                 src="/static/image/icons8-upload-24.png" alt="detail"><span
                                                 class="d-none d-md-inline">&nbsp;Upload Bukti</span>
                                         </button>
-                                    </form>
-                                    <?php
-                                } else {
+                                        <?php
+                                    }
                                     ?>
-                                    <button type="button"
-                                        class="d-flex align-items-center justify-content-center w-100 thrift-shop-transparent thrift-shop-bg-gray thrift-shop-font-white p-2 uploadBukti"
-                                        data-kode-transaksi="<?= $row['kode_transaksi'] ?>"><img
-                                            src="/static/image/icons8-upload-24.png" alt="detail"><span
-                                            class="d-none d-md-inline">&nbsp;Upload Bukti</span>
-                                    </button>
-                                    <?php
-                                }
-                                ?>
-                            </div>
+                                </div>
 
-                            <div class="p-1 col-12">
-                                <a class="w-100 thrift-shop-font-red thrift-shop thrift-shop-bg-white p-2 d-inline-block d-flex align-items-center justify-content-center"
-                                    href="/detail_transaksi.php?kodeTransaksi=<?= $row['kode_transaksi'] ?>"><img
-                                        src="/static/image/icons8-detail-24.png" alt="detail"><span
-                                        class="d-none d-md-inline">&nbsp;Detail</span>
-                                </a>
+                                <div class="p-1 col-12">
+                                    <a class="w-100 thrift-shop-font-red thrift-shop thrift-shop-bg-white p-2 d-inline-block d-flex align-items-center justify-content-center"
+                                        href="/detail_transaksi.php?kodeTransaksi=<?= $row['kode_transaksi'] ?>"><img
+                                            src="/static/image/icons8-detail-24.png" alt="detail"><span
+                                            class="d-none d-md-inline">&nbsp;Detail</span>
+                                    </a>
+                                </div>
                             </div>
-
                         </td>
                     </tr>
                     <?php

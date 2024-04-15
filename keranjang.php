@@ -80,13 +80,13 @@ if (count($error) > 0) {
     if ($result->num_rows > 0) {
         ?>
         <form action="/server/feature/ubah_keranjang.php" method="post">
-            <table class="table table-sm">
+            <table class="table table-sm w-100">
                 <thead>
                     <tr>
-                        <th>Gambar</th>
+                        <th class="d-none d-sm-table-cell">Gambar</th>
                         <th>Nama</th>
                         <th>Harga</th>
-                        <th>Tersisa</th>
+                        <th class="d-none d-md-table-cell">Tersisa</th>
                         <th>Jumlah</th>
                         <th>Aksi</th>
                     </tr>
@@ -96,7 +96,7 @@ if (count($error) > 0) {
                     while ($row = $result->fetch_assoc()) {
                         ?>
                         <tr class="itemBelanja" data-produk-id="<?= $row['id_produk'] ?>">
-                            <td>
+                            <td class="d-none d-sm-table-cell">
                                 <div class="outer-1-1">
                                     <div class="inner">
                                         <img class="w-100 h-100" src="/server/produk/<?= $row['gambar'] ?>" alt=""
@@ -107,7 +107,7 @@ if (count($error) > 0) {
                             </td>
                             <td class="align-middle"><?= $row['nama'] ?></td>
                             <td class="align-middle"><?= intToRupiahStr($row['harga']) ?></td>
-                            <td class="align-middle"><?= convertTo999Plus($row['stok']) ?></td>
+                            <td class="align-middle d-none d-md-table-cell"><?= convertTo999Plus($row['stok']) ?></td>
                             <td class="align-middle"><input class="thrift-shop form-control" type="text" name="jumlahBeli[]"
                                     value="<?= $row['jumlah_beli'] ?>">
                             </td>
