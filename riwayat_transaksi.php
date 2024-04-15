@@ -106,8 +106,8 @@ if (count($error) > 0) {
                                         <button type="button"
                                             class=" w-100 thrift-shop-transparent thrift-shop-bg-red thrift-shop-font-white p-2 uploadBukti"
                                             data-kode-transaksi="<?= $row['kode_transaksi'] ?>"><img
-                                                src="/static/image/icons8-upload-24.png" alt="detail">&nbsp;<span
-                                                class="d-none d-md-inline">Upload Bukti</span>
+                                                src="/static/image/icons8-upload-24.png" alt="detail"><span
+                                                class="d-none d-md-inline">&nbsp;Upload Bukti</span>
                                         </button>
                                     </form>
                                     <?php
