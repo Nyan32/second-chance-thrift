@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $query = 'INSERT INTO akun (email, password, nama, alamat, nomor_telepon, email_hash) VALUES (?, ?, ?, ?, ?, ?)';
         $stmt = $mysqli->prepare($query);
-        $stmt->bind_param("sssss", $emailFMT, $passwordFMT, $namaFMT, $alamatFMT, $nomorTeleponFMT, $emailHash);
+        $stmt->bind_param("ssssss", $emailFMT, $passwordFMT, $namaFMT, $alamatFMT, $nomorTeleponFMT, $emailHash);
         $stmt->execute();
         $stmt->close();
 
