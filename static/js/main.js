@@ -97,7 +97,7 @@ $(function () {
     $('.detailProduk').on('click', function () {
         var idProduk = $(this).data('id-produk')
         var nama = $(`.detailInfo[data-id-produk="${idProduk}"] .nama`).text()
-        var deskripsi = $(`.detailInfo[data-id-produk="${idProduk}"] .deskripsi`).text()
+        var deskripsi = $(`.detailInfo[data-id-produk="${idProduk}"] .deskripsi`).html()
         var harga = $(`.detailInfo[data-id-produk="${idProduk}"] .harga`).text()
         var stok = $(`.detailInfo[data-id-produk="${idProduk}"] .stok`).text()
         var berat = $(`.detailInfo[data-id-produk="${idProduk}"] .berat`).text()
@@ -109,7 +109,7 @@ $(function () {
         $('#gambarProdukModal').attr('src', `/server/produk/${gambar}`)
         $('#namaProdukModal').text(nama)
         $('#namaKategoriProdukModal').text(kategori)
-        $('#deskripsiProdukModal').text(deskripsi)
+        $('#deskripsiProdukModal').html(deskripsi)
         $('#hargaProdukModal span').text(harga)
         $('#beratProdukModal span').text(berat)
         $('#diskonProdukModal span').text(diskon)
