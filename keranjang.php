@@ -21,7 +21,7 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '' && validateSessionLogi
 
     $email = getEmailFromHash($mysqli, $userLogin);
 
-    $query = "SELECT * FROM keranjang k JOIN produk p ON k.id_produk = p.id_produk WHERE k.email=? ORDER BY jumlah_beli";
+    $query = "SELECT *, (harga-diskon) AS harga_sesudah_diskon FROM keranjang k JOIN produk p ON k.id_produk = p.id_produk WHERE k.email=? ORDER BY jumlah_beli";
     $stmt = $mysqli->prepare($query);
     $stmt->bind_param('s', $email);
     $stmt->execute();
@@ -106,7 +106,7 @@ if (count($error) > 0) {
                                 <input type="text" value="<?= $row['id_produk'] ?>" hidden name="idProduk[]">
                             </td>
                             <td class="align-middle"><?= $row['nama'] ?></td>
-                            <td class="align-middle"><?= intToRupiahStr($row['harga']) ?></td>
+                            <td class="align-middle"><?= intToRupiahStr($row['harga_sesudah_diskon']) ?></td>
                             <td class="align-middle d-none d-md-table-cell"><?= convertTo999Plus($row['stok']) ?></td>
                             <td class="align-middle"><input class="thrift-shop form-control" type="text" name="jumlahBeli[]"
                                     value="<?= $row['jumlah_beli'] ?>">

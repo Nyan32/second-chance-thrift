@@ -16,7 +16,7 @@ if (isset($_COOKIE['error'])) {
 }
 setcookie('error', '', time() - 3600, '/');
 
-$query = "SELECT p.*, k.nama AS nama_kategori FROM produk p JOIN kategori k ON p.id_kategori=k.id_kategori ORDER BY jumlah_dibeli DESC LIMIT 20";
+$query = "SELECT p.*, (p.harga-p.diskon) AS harga_sesudah_diskon, k.nama AS nama_kategori FROM produk p JOIN kategori k ON p.id_kategori=k.id_kategori ORDER BY jumlah_dibeli DESC LIMIT 20";
 $stmt = $mysqli->prepare($query);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -117,8 +117,8 @@ if (count($error) > 0) {
                     </div>
                 </div>
                 <div class="p-2 thrift-shop-font-red text-center">
-                    <?= intToRupiahStr($row['harga']);
-                    ?>
+                    <span class="<?= ($row['diskon'] > 0) ? 'text-decoration-line-through thrift-shop-50-opacity' : ''?> d-block"><?= intToRupiahStr($row['harga']);?></span>
+                    <?= ($row['diskon'] > 0) ? '<span class="d-block">'.intToRupiahStr($row['harga_sesudah_diskon']).'</span>' : ''?>
                 </div>
                 <div class="detailInfo" data-id-produk="<?= $row['id_produk'] ?>" hidden>
                     <p class="nama"><?= $row['nama'] ?></p>

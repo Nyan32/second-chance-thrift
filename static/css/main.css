@@ -58,6 +58,10 @@ a.thrift-shop {
     text-decoration: none;
 }
 
+.thrift-shop-50-opacity{
+    opacity: 0.5 !important;
+}
+
 .thrift-shop-nav-border li {
     border-right: 0px solid transparent;
 }

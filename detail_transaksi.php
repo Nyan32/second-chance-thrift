@@ -29,7 +29,7 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '' && validateSessionLogi
 
     $email = getEmailFromHash($mysqli, $userLogin);
 
-    $query = "SELECT * FROM riwayat_transaksi r JOIN produk p ON r.id_produk = p.id_produk WHERE r.kode_transaksi=? ORDER BY r.jumlah_beli";
+    $query = "SELECT *, (harga-diskon) AS harga_sesudah_diskon FROM riwayat_transaksi r JOIN produk p ON r.id_produk = p.id_produk WHERE r.kode_transaksi=? ORDER BY r.jumlah_beli";
     $stmt = $mysqli->prepare($query);
     $stmt->bind_param('s', $kodeTransaksi);
     $stmt->execute();
@@ -52,7 +52,7 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '' && validateSessionLogi
         "validating" => "Pengecekan bukti oleh toko",
     ];
 
-    $query = "SELECT SUM(p.harga * r.jumlah_beli) AS totalBelanjaHarga FROM riwayat_transaksi r JOIN produk p ON r.id_produk = p.id_produk WHERE r.kode_transaksi=?";
+    $query = "SELECT SUM((p.harga-p.diskon) * r.jumlah_beli) AS totalBelanjaHarga FROM riwayat_transaksi r JOIN produk p ON r.id_produk = p.id_produk WHERE r.kode_transaksi=?";
     $stmt = $mysqli->prepare($query);
     $stmt->bind_param('s', $kodeTransaksi);
     $stmt->execute();
@@ -130,7 +130,7 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '' && validateSessionLogi
                             <input type="text" value="<?= $row['id_produk'] ?>" hidden name="idProduk[]">
                         </td>
                         <td class="align-middle"><?= $row['nama'] ?></td>
-                        <td class="align-middle"><?= intToRupiahStr($row['harga']) ?></td>
+                        <td class="align-middle"><?= intToRupiahStr($row['harga_sesudah_diskon']) ?></td>
                         <td class="align-middle"><?= $row['jumlah_beli'] ?></td>
                     </tr>
                     <?php

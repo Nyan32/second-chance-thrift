@@ -16,7 +16,7 @@ if (isset($_COOKIE['error'])) {
 }
 setcookie('error', '', time() - 3600, '/');
 
-$query = "SELECT p.*, k.nama AS nama_kategori FROM produk p JOIN kategori k ON p.id_kategori=k.id_kategori";
+$query = "SELECT p.*, (p.harga-p.diskon) AS harga_sesudah_diskon, k.nama AS nama_kategori FROM produk p JOIN kategori k ON p.id_kategori=k.id_kategori";
 $condition = array();
 
 $namaKategori = 'Semua Produk';
@@ -148,9 +148,8 @@ if (count($error) > 0) {
                     </div>
                 </div>
                 <div class="p-2 thrift-shop-font-red text-center">
-                    <?php
-                    echo (intToRupiahStr($row['harga']));
-                    ?>
+                    <span class="<?= ($row['diskon'] > 0) ? 'text-decoration-line-through thrift-shop-50-opacity' : ''?> d-block"><?= intToRupiahStr($row['harga']);?></span>
+                    <?= ($row['diskon'] > 0) ? '<span class="d-block">'.intToRupiahStr($row['harga_sesudah_diskon']).'</span>' : ''?>
                 </div>
                 <div class="detailInfo" data-id-produk="<?= $row['id_produk'] ?>" hidden>
                     <p class="nama"><?= $row['nama'] ?></p>

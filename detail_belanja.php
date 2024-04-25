@@ -26,14 +26,14 @@ if (
     $email = getEmailFromHash($mysqli, $userLogin);
 
 
-    $query = "SELECT * FROM keranjang k JOIN produk p ON k.id_produk = p.id_produk WHERE k.email=? ORDER BY k.jumlah_beli";
+    $query = "SELECT *, (harga-diskon) AS harga_sesudah_diskon FROM keranjang k JOIN produk p ON k.id_produk = p.id_produk WHERE k.email=? ORDER BY k.jumlah_beli";
     $stmt = $mysqli->prepare($query);
     $stmt->bind_param('s', $email);
     $stmt->execute();
     $result = $stmt->get_result();
     $stmt->close();
 
-    $query = "SELECT SUM(p.harga * k.jumlah_beli) AS totalBelanjaHarga FROM keranjang k JOIN produk p ON k.id_produk = p.id_produk WHERE k.email=?";
+    $query = "SELECT SUM((p.harga-p.diskon) * k.jumlah_beli) AS totalBelanjaHarga FROM keranjang k JOIN produk p ON k.id_produk = p.id_produk WHERE k.email=?";
     $stmt = $mysqli->prepare($query);
     $stmt->bind_param('s', $email);
     $stmt->execute();
@@ -110,7 +110,7 @@ if (
                             <input type="text" value="<?= $row['id_produk'] ?>" hidden name="idProduk[]">
                         </td>
                         <td class="align-middle"><?= $row['nama'] ?></td>
-                        <td class="align-middle"><?= intToRupiahStr($row['harga']) ?></td>
+                        <td class="align-middle"><?= intToRupiahStr($row['harga_sesudah_diskon']) ?></td>
                         <td class="align-middle"><?= $row['jumlah_beli'] ?></td>
                     </tr>
                     <?php
