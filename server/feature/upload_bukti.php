@@ -24,6 +24,7 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '' && validateSessionLogi
 
     $file = (isset($_FILES["buktiTransaksi"])) ? $_FILES['buktiTransaksi'] : null;
     $kodeTransaksi = trim($_POST['kodeTransaksi']);
+    $maxFileSize = 10 * 1024 * 1024;  // 10 MB
 
     // collect -> validate -> format -> submit
 
@@ -33,6 +34,8 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '' && validateSessionLogi
         array_push($error, "Terdapat kesalahan pada file");
     } else if (!validateFileExtension(pathinfo($file['name'], PATHINFO_EXTENSION))) {
         array_push($error, "Tipe file tidak diperbolehkan (valid: jpg, png, jpeg)");
+    } else if ($file['size'] > $maxFileSize){
+        array_push($error, "Ukuran file tidak dapat melebihi 10MB");
     }
 
     if (!isValueInTable($mysqli, "riwayat_transaksi", "kode_transaksi", "s", $kodeTransaksi)) {
