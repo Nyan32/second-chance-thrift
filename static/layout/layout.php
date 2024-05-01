@@ -123,6 +123,14 @@ if (isset($_SESSION['email']) && $_SESSION['email'] != '' && validateSessionLogi
                         </div>
                     </div>
                 </div>
+                <div class="p-2">
+                    <div class="bg-light border">
+                        <div class="p-2 title-card">Bantuan Pelanggan (admin)</div>
+                        <div class="p-2 row m-0">
+                            <p class="m-0 p-0"><img src="/static/image/icons8-whatsapp-24.png" alt="whatsapp">&nbsp;Whatsapp: 081245621178 (Elga)</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
